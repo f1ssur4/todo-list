@@ -1,0 +1,33 @@
+version: '3.2'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www/todo-list
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - ${DOCKER_NGINX_PORT}:80
+    links:
+      - application
+
+  application:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./:/var/www/todo-list
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    volumes:
+      - ./docker/mysql/mysql8.cnf:/etc/my.cnf
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo-list
+    ports:
+      - ${DOCKER_MYSQL_PORT}:3306

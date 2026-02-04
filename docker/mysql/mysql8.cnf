@@ -1,0 +1,28 @@
+[mysqld]
+#
+# * Basic Settings
+socket = /var/run/mysql/mysql.sock
+
+bind-address = 0.0.0.0
+mysql_native_password = ON
+# Error log - should be very few entries.
+log_error = /var/lib/mysql/error.log
+slow_query_log = 1
+slow_query_log_file = /var/lib/mysql/mysql-slow.log
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+#skip-grant-tables
+
+sql_mode="NO_ENGINE_SUBSTITUTION"
+
+secure-file-priv = ""
+innodb_use_native_aio=0
+init-connect='SET NAMES utf8mb4'
+
+[mysql]
+default-character-set=utf8mb4
+
+[client]
+default-character-set=utf8mb4
