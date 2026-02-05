@@ -21,4 +21,9 @@ RUN apt-get install -y wget unzip curl
 RUN curl -sS https://getcomposer.org/installer |php
 RUN mv composer.phar /usr/local/bin/composer
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 WORKDIR /var/www/todo-list
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
