@@ -21,6 +21,16 @@ services:
     links:
       - mysql
 
+  node:
+    image: node:22-alpine
+    working_dir: /var/www/todo-list
+    volumes:
+      - ./:/var/www/todo-list
+      - /var/www/todo-list/node_modules
+    ports:
+      - ${DOCKER_VITE_PORT:-5173}:5173
+    command: sh -c "npm install && npm run dev -- --host"
+
   mysql:
     image: mysql:8
     volumes:
