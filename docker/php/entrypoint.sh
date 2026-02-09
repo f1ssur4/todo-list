@@ -3,6 +3,11 @@ set -e
 
 cd /var/www/todo-list
 
+if [ ! -d "vendor" ]; then
+    echo "Installing composer dependencies..."
+    composer install --no-interaction --prefer-dist --optimize-autoloader
+fi
+
 if grep -q "APP_KEY=$" .env || grep -q "APP_KEY=\"\"" .env; then
     echo "Generating APP_KEY..."
     php artisan key:generate --no-interaction
