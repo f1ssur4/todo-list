@@ -16,24 +16,24 @@ class DashboardController extends Controller
 	 */
 	public function __invoke(Request $request): View
 	{
-		$user = $request->user();
+		$tasks = $request->user()->tasks();
 
 		$stats = [
-			'total' => $user->tasks()->count(),
-			'pending' => $user->tasks()->pending()->count(),
-			'in_progress' => $user->tasks()->inProgress()->count(),
-			'completed' => $user->tasks()->completed()->count(),
-			'overdue' => $user->tasks()->overdue()->count(),
+			'total' => $tasks->count(),
+			'pending' => $tasks->pending()->count(),
+			'in_progress' => $tasks->inProgress()->count(),
+			'completed' => $tasks->completed()->count(),
+			'overdue' => $tasks->overdue()->count(),
 		];
 
-		$upcomingTasks = $user->tasks()
+		$upcomingTasks = $tasks
 			->with('category')
 			->upcoming()
 			->orderBy('deadline')
 			->limit(5)
 			->get();
 
-		$recentTasks = $user->tasks()
+		$recentTasks = $tasks
 			->with('category')
 			->latest()
 			->limit(5)
