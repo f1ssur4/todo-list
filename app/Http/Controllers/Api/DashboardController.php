@@ -17,6 +17,7 @@ class DashboardController extends Controller
 	 */
 	public function __invoke(Request $request): JsonResponse
 	{
+		$user = $request->user();
 		$tasks = $request->user()->tasks();
 
 		$stats = [
@@ -26,19 +27,19 @@ class DashboardController extends Controller
 			'completed' => $tasks->completed()->count(),
 			'overdue' => $tasks->overdue()->count(),
 		];
-		
-		$upcomingTasks = $tasks
-			->with('category')
+
+		$upcomingTasks = $user->tasks()
+			->with('category:id,name,color')
 			->upcoming()
 			->orderBy('deadline')
 			->limit(5)
-			->get();
+			->get(['id', 'title', 'category_id', 'deadline']);
 		
-		$recentTasks = $tasks
-			->with('category')
+		$recentTasks = $user->tasks()
+			->with('category:id,name,color')
 			->latest()
 			->limit(5)
-			->get();
+			->get(['id', 'title', 'category_id', 'status', 'created_at']);
 
 		return response()->json([
 			'stats' => $stats,
