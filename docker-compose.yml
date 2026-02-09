@@ -13,7 +13,8 @@ services:
 
   application:
     build:
-      context: ./docker/php
+      context: .
+      dockerfile: docker/php/Dockerfile
     volumes:
       - ./:/var/www/todo-list
     environment:
