@@ -23,6 +23,9 @@ RUN mv composer.phar /usr/local/bin/composer
 
 WORKDIR /var/www/todo-list
 
+COPY composer.json composer.lock ./
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+
 COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 

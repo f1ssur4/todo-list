@@ -17,6 +17,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./:/var/www/todo-list
+      - /var/www/todo-list/vendor
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
